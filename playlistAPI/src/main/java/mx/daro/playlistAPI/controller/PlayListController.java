@@ -1,10 +1,14 @@
 package mx.daro.playlistAPI.controller;
 
+import java.util.Base64;
+import java.util.Base64.Encoder;
 import java.util.Optional;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import mx.daro.playlistAPI.entity.Playlist;
 import mx.daro.playlistAPI.service.PlayListService;
 
@@ -23,34 +31,60 @@ public class PlayListController {
 	@Autowired
 	public PlayListService service;
 	
-	@GetMapping
-	@ResponseStatus(HttpStatus.OK)
-	public Iterable<Playlist> getAllPlaylist(){
-		return service.getAllPlaylist();
-	}
-
+	private ObjectMapper mapper = new ObjectMapper();
+	private Encoder encoder = Base64.getEncoder();
+	
 	@GetMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public Optional<Playlist> getByIdPlaylist(@PathVariable("id") Integer playlistId) {
-		return service.getByIdPlaylist(playlistId);
+	public ResponseEntity<?> getByIdPlaylist(@PathVariable("id") Integer playlistId) {
+		Optional<Playlist> p = service.getById(playlistId);
+		if(p!=null && p.isPresent())
+			try {
+				return new ResponseEntity<>(encoder.encodeToString(mapper.writeValueAsBytes(p.get().getData())), HttpStatus.OK);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	@GetMapping("/{userId}/{userProvider}")
+	public ResponseEntity<?> getIdByUserIdAndUserProvider(@PathVariable("userId") String userId, @PathVariable("userProvider") String userProvider) {
+		Optional<Playlist> p = service.getByUserIdAndUserProvider(userId, userProvider);
+		if(p!=null && p.isPresent())
+			try {
+				return new ResponseEntity<>(encoder.encodeToString(mapper.writeValueAsBytes(p.get().getPlaylistId())), HttpStatus.OK);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Playlist save(@Valid @RequestBody Playlist playlist) {
-		return service.save(playlist);
+	public ResponseEntity<?> save(@Valid @RequestBody Playlist playlist) {
+		Playlist p = null;
+		if(service.exists(playlist.getUserId(), playlist.getUserProvider())) {
+			Playlist current = service.getByUserIdAndUserProvider(playlist.getUserId(), playlist.getUserProvider()).get();
+			current.setData(playlist.getData());
+			current.setUserEmail(playlist.getUserEmail());
+			current.setUserName(playlist.getUserName());
+			p = service.save(current);
+		}else {
+			p = service.save(playlist);	
+		}
+		if(p!=null)
+			try {
+				return new ResponseEntity<>(encoder.encodeToString(mapper.writeValueAsBytes(p.getPlaylistId())), HttpStatus.OK);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@DeleteMapping("/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void DeleteByIdPlayList(@PathVariable("id") Integer playlistId) {
-		service.deleteById(playlistId);
-	} 
-
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void UpdatePlaylist(@PathVariable("id")Integer playlistId, @RequestBody Playlist playlist) {
-		service.updateName(playlistId, playlist.getName());
+	public void updatePlaylist(@PathVariable("id") Integer playlistId, @RequestBody Playlist playlist) {
+		service.updateData(playlistId, playlist.getData());
 	}
 	
 }

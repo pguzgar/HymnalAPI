@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import com.sun.istack.NotNull;
 
 @Entity
 public class Playlist {
@@ -13,12 +12,16 @@ public class Playlist {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer playlistId;
 
-	@NotNull
-	private String name;
+	private String userId;
 	
-	@NotNull
-	private Integer userId;
-
+	private String userProvider;
+	
+	private String userEmail;
+	
+	private String userName;
+	
+	private String data;
+	
 	public Integer getPlaylistId() {
 		return playlistId;
 	}
@@ -27,25 +30,44 @@ public class Playlist {
 		this.playlistId = playlistId;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
-	@Override
-	public String toString() {
-		return "Playlist [playlistId=" + playlistId + ", name=" + name + ", userId=" + userId + "]";
+	public String getUserProvider() {
+		return userProvider;
 	}
-	
+
+	public void setUserProvider(String userProvider) {
+		this.userProvider = userProvider;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
+	}
+
 }
