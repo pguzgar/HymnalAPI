@@ -16,7 +16,7 @@ public class Playlist {
 	
 	private String userProvider;
 	
-	private String userProviderId;
+	private String userFirebaseId;
 	
 	private String userEmail;
 	
@@ -72,12 +72,12 @@ public class Playlist {
 		this.data = data;
 	}
 
-	public String getUserProviderId() {
-		return userProviderId;
+	public String getUserFirebaseId() {
+		return userFirebaseId;
 	}
 
-	public void setUserProviderId(String userProviderId) {
-		this.userProviderId = userProviderId;
+	public void setUserFirebaseId(String userFirebaseId) {
+		this.userFirebaseId = userFirebaseId;
 	}
 
 }
