@@ -68,6 +68,7 @@ public class PlayListController {
 			current.setData(playlist.getData());
 			current.setUserEmail(playlist.getUserEmail());
 			current.setUserName(playlist.getUserName());
+			current.setUserFirebaseId(playlist.getUserFirebaseId());
 			p = service.save(current);
 		}else {
 			p = service.save(playlist);	
