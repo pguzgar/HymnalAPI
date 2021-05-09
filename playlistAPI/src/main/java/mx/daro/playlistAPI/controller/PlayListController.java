@@ -81,10 +81,10 @@ public class PlayListController {
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public void updatePlaylist(@PathVariable("id") Integer playlistId, @RequestBody Playlist playlist) {
-		service.updateData(playlistId, playlist.getData());
+	public void updatePlaylist(@RequestBody Playlist playlist) {
+		service.updateData(playlist.getPlaylistId(), playlist.getData());
 	}
 	
 }
