@@ -16,6 +16,8 @@ public class Playlist {
 	
 	private String userProvider;
 	
+	private String userProviderId;
+	
 	private String userEmail;
 	
 	private String userName;
@@ -68,6 +70,14 @@ public class Playlist {
 
 	public void setData(String data) {
 		this.data = data;
+	}
+
+	public String getUserProviderId() {
+		return userProviderId;
+	}
+
+	public void setUserProviderId(String userProviderId) {
+		this.userProviderId = userProviderId;
 	}
 
 }
