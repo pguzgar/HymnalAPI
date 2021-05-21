@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,8 @@ import mx.daro.himnario.properties.util.Constants;
 public class ApplicationController {
 	
 	@Autowired private PropertiesService service;
-	
+    @Autowired private CacheManager cacheManager;
+    
 	@GetMapping("/version")
 	@ResponseStatus(HttpStatus.OK)
 	public Map<String, Object> getByVersionId(){
@@ -42,6 +44,12 @@ public class ApplicationController {
 		String generalNews = service.getProperty(Constants.NEWS_GENERAL);
 		map.put("value", generalNews);
 		return map;
+	}
+	
+	@GetMapping("/clearCache")
+	@ResponseStatus(HttpStatus.OK)
+	public void clearCache(){
+		cacheManager.getCache("propertiesCache").clear();
 	}
 
 }
