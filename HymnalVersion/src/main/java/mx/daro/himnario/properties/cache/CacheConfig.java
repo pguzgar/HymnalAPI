@@ -1,4 +1,4 @@
-package mx.daro.hymnalVersion.cache;
+package mx.daro.himnario.properties.cache;
 
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;

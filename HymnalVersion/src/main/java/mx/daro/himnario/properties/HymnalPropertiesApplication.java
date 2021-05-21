@@ -1,4 +1,4 @@
-package mx.daro.hymnalVersion;
+package mx.daro.himnario.properties;
 
 import org.apache.catalina.connector.Connector;
 import org.apache.coyote.ajp.AbstractAjpProtocol;
@@ -10,13 +10,13 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class HymnalVersionApplication {
+public class HymnalPropertiesApplication {
 
 	@Value("${ajp.port}")
 	int ajpPort;
 	
 	public static void main(String[] args) {
-		SpringApplication.run(HymnalVersionApplication.class, args);
+		SpringApplication.run(HymnalPropertiesApplication.class, args);
 	}
 
 	@Bean

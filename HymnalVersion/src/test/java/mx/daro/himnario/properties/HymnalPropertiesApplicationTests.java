@@ -1,10 +1,10 @@
-package mx.daro.hymnalVersion;
+package mx.daro.himnario.properties;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class HymnalVersionApplicationTests {
+class HymnalPropertiesApplicationTests {
 
 	@Test
 	void contextLoads() {
