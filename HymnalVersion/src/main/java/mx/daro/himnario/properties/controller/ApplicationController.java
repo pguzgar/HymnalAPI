@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.daro.himnario.properties.service.PropertiesService;
+import mx.daro.himnario.properties.util.Constants;
 
 @RestController
 public class ApplicationController {
@@ -30,8 +31,16 @@ public class ApplicationController {
 	@ResponseStatus(HttpStatus.OK)
 	public Map<String, Object> getProperty(@PathVariable("key") String key){
 		Map<String, Object> map = new HashMap<>();
-		map.put("key", key);
 		map.put("value", service.getProperty(key));
+		return map;
+	}
+	
+	@GetMapping("/news/{version}/{userId}")
+	@ResponseStatus(HttpStatus.OK)
+	public Map<String, Object> getNews(@PathVariable("version") String version, @PathVariable("userId") String userId){
+		Map<String, Object> map = new HashMap<>();
+		String generalNews = service.getProperty(Constants.NEWS_GENERAL);
+		map.put("value", generalNews);
 		return map;
 	}
 
