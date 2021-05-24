@@ -26,7 +26,7 @@ public class PurchaseValidationService {
 	private GoogleCredentials credential;
 	
 	public boolean validate(Purchase purchase) {
-		boolean valid = false;
+		boolean valid;
 		if(purchase.getSku().contains(".pro")) {
 			valid = validatePurchase(purchase);
 		}else {
@@ -49,7 +49,7 @@ public class PurchaseValidationService {
 			logger.info("Error while verifying subscription ["+purchase.getSku()+"] = "+purchase.getToken());
 			e.printStackTrace();
 		}
-		return false;
+		return true;
 	}
 	
 	public boolean validatePurchase(Purchase purchase) {
@@ -63,7 +63,7 @@ public class PurchaseValidationService {
 			logger.info("Error while verifying inapp product ["+purchase.getSku()+"] = "+purchase.getToken());
 			e.printStackTrace();
 		}
-		return false;
+		return true;
 	}
 	
 	public GoogleCredentials getCredential() {
