@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -48,6 +49,9 @@ public class PurchaseValidationService {
 		}catch(Exception e) {
 			logger.info("Error while verifying subscription ["+purchase.getSku()+"] = "+purchase.getToken());
 			e.printStackTrace();
+			if(StringUtils.hasLength(e.getMessage())) {
+				if(e.getMessage().contains("nvalid")) return false;
+			}
 		}
 		return true;
 	}
@@ -62,6 +66,9 @@ public class PurchaseValidationService {
 		}catch(Exception e) {
 			logger.info("Error while verifying inapp product ["+purchase.getSku()+"] = "+purchase.getToken());
 			e.printStackTrace();
+			if(StringUtils.hasLength(e.getMessage())) {
+				if(e.getMessage().contains("nvalid")) return false;
+			}
 		}
 		return true;
 	}
