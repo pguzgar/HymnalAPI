@@ -51,6 +51,7 @@ public class PurchaseValidationService {
 			e.printStackTrace();
 			if(StringUtils.hasLength(e.getMessage())) {
 				if(e.getMessage().contains("nvalid")) return false;
+				if(e.getMessage().contains("token does not match")) return false;
 			}
 		}
 		return true;
@@ -68,6 +69,7 @@ public class PurchaseValidationService {
 			e.printStackTrace();
 			if(StringUtils.hasLength(e.getMessage())) {
 				if(e.getMessage().contains("nvalid")) return false;
+				if(e.getMessage().contains("token does not match")) return false;
 			}
 		}
 		return true;
