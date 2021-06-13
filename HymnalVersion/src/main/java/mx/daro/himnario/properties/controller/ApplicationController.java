@@ -40,7 +40,19 @@ public class ApplicationController {
 		try {
 			return new ResponseEntity<>(service.getProperty(key), HttpStatus.OK);
 		} catch (Exception e) {
-			e.printStackTrace();
+			if(!e.getMessage().contains("not found"))
+				e.printStackTrace();
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+	
+	@GetMapping("/prop/{key}/{version}")
+	public ResponseEntity<?> getPropertyByVersion(@PathVariable("key") String key, @PathVariable("version") String version){
+		try {
+			return new ResponseEntity<>(service.getProperty(key, version), HttpStatus.OK);
+		} catch (Exception e) {
+			if(!e.getMessage().contains("not found"))
+				e.printStackTrace();
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
@@ -51,7 +63,8 @@ public class ApplicationController {
 		try {
 			return new ResponseEntity<>(service.getProperty(Constants.NEWS_GENERAL), HttpStatus.OK);
 		} catch (Exception e) {
-			e.printStackTrace();
+			if(!e.getMessage().contains("not found"))
+				e.printStackTrace();
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}

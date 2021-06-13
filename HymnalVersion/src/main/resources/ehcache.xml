@@ -10,7 +10,6 @@
     </service>
     
     <cache alias="propertiesCache">
-        <key-type>java.lang.String</key-type>
         <value-type>java.lang.String</value-type>
         <expiry>
             <ttl unit="hours">6</ttl>
@@ -20,4 +19,5 @@
             <offheap unit="MB">1</offheap>
         </resources>
     </cache>
+   
 </config>
